@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from bisect import bisect_left, bisect_right
+from collections.abc import Callable
 from datetime import UTC, datetime
 from typing import Any
 
@@ -221,6 +222,9 @@ def normalize_quote_frame(
     symbol: str,
     metadata: dict[str, Any],
     frame: pl.DataFrame,
+    canonical_projector: Callable[
+        ..., pl.DataFrame | None
+    ] = normalize_canonical_quotes,
 ) -> pl.DataFrame:
     required = {'ts', 'bid', 'ask'}
     missing = sorted(required.difference(frame.columns))
@@ -228,7 +232,7 @@ def normalize_quote_frame(
         raise DatasetValidationError(
             'Quote archive is missing columns: ' + ', '.join(missing)
         )
-    canonical = normalize_canonical_quotes(
+    canonical = canonical_projector(
         product=product,
         symbol=symbol,
         metadata=metadata,
