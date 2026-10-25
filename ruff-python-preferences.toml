@@ -1,0 +1,6 @@
+extend = "pyproject.toml"
+line-length = 80
+
+[format]
+quote-style = "single"
+exclude = []

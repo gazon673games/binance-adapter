@@ -1,0 +1,37 @@
+[project]
+name = "binance-adapter"
+version = "0.1.0"
+description = "Standalone binance historical market-data client."
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = ["polars>=1.0.0", "tzdata>=2025.2; sys_platform == 'win32'"]
+
+[dependency-groups]
+dev = ["pytest>=8.0.0", "ruff>=0.5.0"]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/binance_adapter"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 80
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+extend-select = ["C4", "RET", "SIM", "PIE"]
+ignore = ["SIM105", "SIM108"]
+
+[tool.ruff.format]
+quote-style = "single"
+
+[tool.metarhia.python_preferences]
+scope = "repository"
+config = "ruff-python-preferences.toml"
+max_lines = 300
